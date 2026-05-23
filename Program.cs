@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Design;
-using TodoApp.Models;
 using TodoApp.Services;
 
 namespace TodoApp;
@@ -11,6 +9,7 @@ public static class Program
 	public static void Main(string[] args)
 	{
 		ITodoService service = new TodoService();
+		//var tasks = service.GetTasks();
 		Menu();
 		var input = Console.ReadLine();
 		Choice(input);
@@ -32,7 +31,8 @@ public static class Program
 		switch (choice)
 		{
 			case "1":
-				
+				CreateTask();
+				break;
 			case "2":
 			case "3":
 			case "4":
@@ -47,6 +47,8 @@ public static class Program
 	{
 		Console.Clear();
 		Console.WriteLine("==== New task ====");
+		
+		
 	}
 }
 

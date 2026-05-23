@@ -7,48 +7,48 @@ namespace TodoApp.Services
 {
     public class TodoService : ITodoService
     {
-        private readonly List<Task>?  _tasks = new();
+        private readonly List<Task>?  _tasks = [];
         public void AddTask(int id, string title, string description, DateTime dueDate)
         {
             var newTask = new Task(id, title, description, dueDate);
-            _tasks.Add(newTask);
+            _tasks?.Add(newTask);
         }
 
-        public List<Task>? GetTasks(int id)
+        public List<Task>? GetTasks()
         {
             return _tasks;
         }
 
         public void FinishTask(int id, string title, string description, DateTime dueDate)
         {
-            var task = _tasks.FirstOrDefault(x => x.ID == id);
-            if (task != null)
+            if (_tasks != null)
             {
-                task.IsDone = true;
+                var task = _tasks.FirstOrDefault(x => x.ID == id);
+                task?.IsDone = true;
             }
         }
 
         public void DeleteTask(int id, string title, string description, DateTime dueDate)
         {
-            var  task = _tasks.FirstOrDefault(x => x.ID == id);
+            var  task = _tasks?.FirstOrDefault(x => x.ID == id);
             if (task != null)
             {
-                _tasks.Remove(task);
+                _tasks?.Remove(task);
             }
         }
 
         public void UpdateTask(int id, string title, string description, DateTime dueDate)
         {
-            var task = _tasks.FirstOrDefault(x => x.ID == id);
+            var task = _tasks?.FirstOrDefault(x => x.ID == id);
             if (task != null)
             {
                 
             }
         }
 
-        public Task? GetTask(int id, string title, string description, DateTime dueDate)
+        public Task GetTask(int id, string title, string description, DateTime dueDate)
         {
-            var task = _tasks.FirstOrDefault(x => x.ID == id);
+            var task = _tasks?.FirstOrDefault(x => x.ID == id);
             if (task != null)
             {
                 return task;
