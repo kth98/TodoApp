@@ -11,9 +11,9 @@ public class TodoTask
     internal bool IsDone { get; set; }
 
 
-    public TodoTask(Guid id, string title, string description, DateTime dueDate)
+    public TodoTask(string title, string description, DateTime dueDate)
     {
-        Id = id;
+        Id = Guid.NewGuid();
         Title = title;
         Description = description;
         DueDate = dueDate;
