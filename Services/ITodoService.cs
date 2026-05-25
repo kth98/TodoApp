@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TodoApp.Models;
 
 namespace TodoApp.Services
 {
     public interface ITodoService
     {
-        void AddTask(int id, string title, string description, DateTime dueDate);
-        List<Task>?  GetTasks();
-        void FinishTask(int id, string title, string description, DateTime dueDate);
-        void DeleteTask(int id, string title, string description, DateTime dueDate);
-        void UpdateTask(int id, string title, string description, DateTime dueDate);
-        Task? GetTask(int id, string title, string description, DateTime dueDate);
-        
+        Task AddTask(TodoTask task);
+        Task<List<TodoTask>> GetTask();
+        Task FinishTask(Guid taskId);
+        Task DeleteTask(TodoTask task);
+        Task UpdateTask(TodoTask task);
     }
 }

@@ -15,7 +15,6 @@ public static class Program
 		Choice(input);
 	}
 	
-
 	private static void Menu()
 	{
 		Console.WriteLine("Menu");
@@ -47,7 +46,6 @@ public static class Program
 	{
 		Console.Clear();
 		Console.WriteLine("==== New task ====");
-		
 		
 	}
 }

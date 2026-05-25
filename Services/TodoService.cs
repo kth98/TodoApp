@@ -1,60 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TodoApp.Models;
 
 namespace TodoApp.Services
 {
     public class TodoService : ITodoService
     {
-        private readonly List<Task>?  _tasks = [];
-        public void AddTask(int id, string title, string description, DateTime dueDate)
+        private readonly FileStorage _fileStorage;
+
+        public TodoService()
         {
-            var newTask = new Task(id, title, description, dueDate);
-            _tasks?.Add(newTask);
+            _fileStorage = new FileStorage();
         }
 
-        public List<Task>? GetTasks()
+        public async Task AddTask(TodoTask task)
         {
-            return _tasks;
+            var tasks = await _fileStorage.GetTasks();
+            tasks.Add(task);
+            await _fileStorage.SaveTasks(tasks);
         }
 
-        public void FinishTask(int id, string title, string description, DateTime dueDate)
+        public async Task<List<TodoTask>> GetTask()
         {
-            if (_tasks != null)
+            return await _fileStorage.GetTasks();
+        }
+
+        public async Task FinishTask(Guid taskId)
+        {
+            var tasks = await _fileStorage.GetTasks();
+            
+            var task = tasks.FirstOrDefault(t => t.Id == taskId);
+
+            if (task == null)
             {
-                var task = _tasks.FirstOrDefault(x => x.ID == id);
-                task?.IsDone = true;
+                return;
             }
+            task.IsDone = true;
+            await _fileStorage.SaveTasks(tasks);
         }
 
-        public void DeleteTask(int id, string title, string description, DateTime dueDate)
+        public async Task DeleteTask(TodoTask task)
         {
-            var  task = _tasks?.FirstOrDefault(x => x.ID == id);
-            if (task != null)
-            {
-                _tasks?.Remove(task);
-            }
+            var tasks = await _fileStorage.GetTasks();
+            tasks.Remove(task);
+            await _fileStorage.SaveTasks(tasks);
         }
 
-        public void UpdateTask(int id, string title, string description, DateTime dueDate)
+        public async Task UpdateTask(TodoTask task)
         {
-            var task = _tasks?.FirstOrDefault(x => x.ID == id);
-            if (task != null)
-            {
-                
-            }
-        }
+            var tasks = await _fileStorage.GetTasks();
+            
+            var taskToUpdate = tasks.FirstOrDefault(t => t.Id == task.Id);
 
-        public Task GetTask(int id, string title, string description, DateTime dueDate)
-        {
-            var task = _tasks?.FirstOrDefault(x => x.ID == id);
-            if (task != null)
+            if (taskToUpdate == null)
             {
-                return task;
+                return;
             }
 
-            throw new InvalidOperationException();
+            taskToUpdate.Title = task.Title;
+            taskToUpdate.Description = task.Description;
+            taskToUpdate.DueDate = task.DueDate;
+            taskToUpdate.IsDone = task.IsDone;
+            await _fileStorage.SaveTasks(tasks);
         }
     }
 }
