@@ -4,11 +4,11 @@ namespace TodoApp.Models;
 
 public class TodoTask
 {
-    internal Guid Id { get; set; }
-    internal string Title { get; set; }
-    internal string Description { get; set; }
-    internal DateTime DueDate { get; set; }
-    internal bool IsDone { get; set; }
+    public Guid Id { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public DateTime DueDate { get; set; }
+    public bool IsDone { get; set; }
 
 
     public TodoTask(string title, string description, DateTime dueDate)
